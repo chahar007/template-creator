@@ -1,0 +1,44 @@
+@keyframes slide-up {
+  0% {
+    transform: translate3d(0, 0.5rem, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes slide-down {
+  0% {
+    transform: translate3d(0, -2rem, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slide-from-left {
+  0% {
+    transform: translate3d(-2rem, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes popup {
+  from {
+    transform: translate3d(0, 2rem, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
