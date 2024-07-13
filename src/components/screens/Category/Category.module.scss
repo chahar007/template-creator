@@ -1,0 +1,99 @@
+// SCSS module for Category and CategoryModal components
+
+.modalBg {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+
+.categoryContainer {
+    padding: 20px;
+}
+
+.categoryTable {
+    th {
+        background-color: #007bff !important; // Bootstrap primary color
+        color: #fff !important; // White text
+    }
+
+    td {
+        vertical-align: middle;
+    }
+}
+
+
+.modalDialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.modalContent {
+    background-color: #fefefe;
+    /* Modal background color */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    /* Modal width */
+    min-width: 400px;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.modalTitle {
+    margin-bottom: 0;
+}
+
+.modalClose {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+
+    &:hover {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+.modalBody {
+    margin-bottom: 20px;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btnSecondary {
+    background-color: #6c757d;
+    /* Bootstrap secondary color */
+    border-color: #6c757d;
+    /* Bootstrap secondary color */
+
+    &:hover {
+        background-color: #5a6268;
+        /* Darker shade for hover */
+        border-color: #545b62;
+        /* Darker shade for hover */
+    }
+}
+
+.btnPrimary {
+    background-color: #007bff;
+    /* Bootstrap primary color */
+    border-color: #007bff;
+    /* Bootstrap primary color */
+
+    &:hover {
+        background-color: #0069d9;
+        /* Darker shade for hover */
+        border-color: #0062cc;
+        /* Darker shade for hover */
+    }
+}

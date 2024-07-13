@@ -3,6 +3,8 @@ import pages from '../../components/screens';
 import React from "react";
 import './route.scss';
 import AuthProvider, { useAuth } from '../utils/AuthProvider';
+import Header from '../../components/shared/components/Header/Header';
+import PageLayout from '../../components/shared/components/PageLayout/PageLayout';
 
 const AUTH_ROUTES = [
     {
@@ -16,6 +18,22 @@ const AUTH_ROUTES = [
     {
         path: '/main',
         component: pages.Main,
+    },
+    {
+        path: '/category',
+        component: pages.Category,
+    },
+    {
+        path: '/quotes',
+        component: pages.Quotes,
+    },
+    {
+        path: '/template-upload',
+        component: pages.TemplateUpload,
+    },
+    {
+        path: '/template-selection',
+        component: pages.TemplateSelection,
     }
 ]
 
@@ -34,7 +52,7 @@ const WITHOUT_AUTH_ROUTES = [
     },
     {
         path: '/',
-        component: pages.Login
+        component: pages.Splash
     },
 ]
 
@@ -45,6 +63,7 @@ const AppRoute = () => {
         return (
             <div className='router-outlet'>
                 <div className='outlet' >
+                    <Header></Header>
                     <Outlet />
                 </div>
             </div>
@@ -56,7 +75,7 @@ const AppRoute = () => {
         const user = useAuth();
         console.log("user", user)
         // if (!user.isAuth) return <Navigate to="/login" />;
-        return <Layout />;
+        return <PageLayout />;
     };
 
 

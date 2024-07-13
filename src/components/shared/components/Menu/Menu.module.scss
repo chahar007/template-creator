@@ -1,0 +1,39 @@
+.sidebar {
+    background-color: #e0f7fa;
+    height: 100%;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    color: #333;
+    /* Default link color */
+    // transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navLink:hover {
+    background-color: blueviolet;
+    /* Lighter background color on hover */
+    color: #000;
+    /* Text color on hover */
+}
+
+.active {
+    background-color: #007bff;
+    /* Active background color */
+    color: #fff;
+    /* Active text color */
+}
+
+.activeStrip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    // width: 4px;
+    /* Adjust width of active strip */
+    height: 100%;
+    background-color: #fff;
+    /* Color of active strip */
+}
