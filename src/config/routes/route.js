@@ -34,6 +34,10 @@ const AUTH_ROUTES = [
     {
         path: '/template-selection',
         component: pages.TemplateSelection,
+    },
+    {
+        path: '/template-creation',
+        component: pages.TemplateCreate,
     }
 ]
 

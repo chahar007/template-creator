@@ -22,6 +22,7 @@ const Menu = () => {
         { path: '/quotes', label: 'Quotes' },
         { path: '/template-upload', label: 'Templates' },
         { path: '/template-selection', label: 'Templates Selection' },
+        { path: '/template-creation', label: 'Templates Creation' },
     ];
 
     return (

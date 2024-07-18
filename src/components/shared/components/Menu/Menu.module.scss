@@ -14,14 +14,14 @@
 }
 
 .navLink:hover {
-    background-color: blueviolet;
+    background-color: #007bff;
     /* Lighter background color on hover */
     color: #000;
     /* Text color on hover */
 }
 
 .active {
-    background-color: #007bff;
+    background-color: blueviolet;
     /* Active background color */
     color: #fff;
     /* Active text color */

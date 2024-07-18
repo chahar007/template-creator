@@ -8,6 +8,7 @@ import Category from './Category/Category';
 import Quotes from './Quotes/Qutoes';
 import TemplateUpload from './TemplateUpload/TemplateUpload';
 import TemplateSelection from './TemplateSelection/TemplateSelection';
+import TemplateCreate from './TemplateCreate/TemplateCreate';
 
 export default {
     Main,
@@ -18,5 +19,6 @@ export default {
     Category,
     Quotes,
     TemplateUpload,
-    TemplateSelection
+    TemplateSelection,
+    TemplateCreate
 }

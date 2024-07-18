@@ -2,22 +2,20 @@ import React, { useState, useEffect } from "react";
 import CategoryModal from "./CategoryModal";
 import styles from "./Category.module.scss"; // Import SCSS module
 import { CATEGORIES } from "../../../assets/constants/app.constant";
+import apiService from "../../../config/services/ApiService";
 
 const Category = () => {
-  const [categories, setCategories] = useState(CATEGORIES);
+  const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    // Example code for fetching categories from an API
-    // axios
-    //   .get("YOUR_GET_API_ENDPOINT")
-    //   .then((response) => {
-    //     setCategories(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("There was an error fetching the categories!", error);
-    //   });
+    fetchCategories();
   }, []);
+
+  const fetchCategories = async () => {
+    let catData = await apiService.getCategoryData();
+    setCategories(catData?.data || []);
+  };
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -41,9 +39,9 @@ const Category = () => {
         </thead>
         <tbody>
           {categories.map((category, index) => (
-            <tr key={category.id}>
+            <tr key={category._id}>
               <td scope="row">{index + 1}</td>
-              <td>{category.title}</td>
+              <td>{category.name}</td>
               <td>
                 <button className="btn btn-warning btn-sm mx-2">Edit</button>
                 <button className="btn btn-danger btn-sm mx-2">Delete</button>

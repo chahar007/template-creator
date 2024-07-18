@@ -1,26 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styles from "./Category.module.scss"; // Import SCSS module
+import apiService from "../../../config/services/ApiService";
 
 const CategoryModal = ({ toggleModal }) => {
   const [title, setTitle] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    let payload = {
+      name: title,
+    };
+    let response = await apiService.postCategoryData(payload);
+    // if (response.status === 200) {
     toggleModal();
-
-    return;
-    e.preventDefault();
-
-    axios
-      .post("YOUR_POST_API_ENDPOINT", { title })
-      .then((response) => {
-        console.log("Category added successfully", response.data);
-        toggleModal();
-        // Assuming you have a way to update categories without full page reload
-      })
-      .catch((error) => {
-        console.error("There was an error adding the category!", error);
-      });
   };
 
   return (

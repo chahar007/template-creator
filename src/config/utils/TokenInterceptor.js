@@ -8,6 +8,7 @@ axios.interceptors.request.use(
     console.log("token interceptor", token)
     if (token) {
       request.headers["Authorization"] = token;
+      // request.headers["Cookie"] = 'connect.sid=s%3AcfFEJy8i-tYzeM4wLTKiJYV0SUAah4sb.N6UeKmfcCR8d3Lgp7D5EQoigb2ob%2F%2BXh1Yq6bsXdhts';
     }
 
     return request;
