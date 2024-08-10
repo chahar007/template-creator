@@ -48,7 +48,7 @@ const TemplateUpload = () => {
               <td>{category.title}</td>
               <td>
                 <button className="btn btn-warning btn-sm mx-2">Edit</button>
-                <button className="btn btn-danger btn-sm mx-2">Delete</button>
+                <button className="btn btn-danger btn-sm mx-2 ">Delete</button>
               </td>
             </tr>
           ))}

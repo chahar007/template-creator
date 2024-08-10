@@ -1,24 +1,36 @@
 import React, { useState, useEffect } from "react";
 import CategoryModal from "./CategoryModal";
 import styles from "./Category.module.scss"; // Import SCSS module
-import { CATEGORIES } from "../../../assets/constants/app.constant";
 import apiService from "../../../config/services/ApiService";
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [editData, setEditData] = useState("");
 
   useEffect(() => {
     fetchCategories();
   }, []);
 
   const fetchCategories = async () => {
-    let catData = await apiService.getCategoryData();
-    setCategories(catData?.data || []);
+    try {
+      let catData = await apiService.getCategoryData();
+      setCategories(catData?.results || []);
+    } catch {
+      console.log("Error fetching categories");
+    }
   };
 
-  const toggleModal = () => {
+  const toggleModal = (val) => {
+    if (val) {
+      fetchCategories();
+    }
     setShowModal(!showModal);
+  };
+
+  const editCategory = (id) => {
+    setShowModal(true);
+    setEditData(id);
   };
 
   return (
@@ -39,19 +51,26 @@ const Category = () => {
         </thead>
         <tbody>
           {categories.map((category, index) => (
-            <tr key={category._id}>
-              <td scope="row">{index + 1}</td>
+            <tr key={category.id}>
+              <td scope="row">{category.id}</td>
               <td>{category.name}</td>
               <td>
-                <button className="btn btn-warning btn-sm mx-2">Edit</button>
-                <button className="btn btn-danger btn-sm mx-2">Delete</button>
+                <button
+                  className="btn btn-secondary btn-sm mx-2"
+                  onClick={() => editCategory(category)}
+                >
+                  Edit
+                </button>
+                {/* <button className="btn btn-danger btn-sm mx-2">Delete</button> */}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {showModal && <CategoryModal toggleModal={toggleModal} />}
+      {showModal && (
+        <CategoryModal toggleModal={toggleModal} editDetails={editData} />
+      )}
     </div>
   );
 };

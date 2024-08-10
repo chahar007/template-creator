@@ -9,6 +9,7 @@ import Quotes from './Quotes/Qutoes';
 import TemplateUpload from './TemplateUpload/TemplateUpload';
 import TemplateSelection from './TemplateSelection/TemplateSelection';
 import TemplateCreate from './TemplateCreate/TemplateCreate';
+import VideoGeneration from './VideoGeneration/VideoGeneration';
 
 export default {
     Main,
@@ -20,5 +21,6 @@ export default {
     Quotes,
     TemplateUpload,
     TemplateSelection,
-    TemplateCreate
+    TemplateCreate,
+    VideoGeneration
 }

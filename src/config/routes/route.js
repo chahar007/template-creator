@@ -38,6 +38,10 @@ const AUTH_ROUTES = [
     {
         path: '/template-creation',
         component: pages.TemplateCreate,
+    },
+    {
+        path: '/video-creation',
+        component: pages.VideoGeneration,
     }
 ]
 
@@ -56,7 +60,7 @@ const WITHOUT_AUTH_ROUTES = [
     },
     {
         path: '/',
-        component: pages.Splash
+        component: pages.Login
     },
 ]
 
@@ -77,10 +81,13 @@ const AppRoute = () => {
 
     const PrivateRoute = () => {
         const user = useAuth();
-        console.log("user", user)
-        // if (!user.isAuth) return <Navigate to="/login" />;
+        if (!user.isAuth || checkAuthUser()) return <Navigate to="/login" />;
         return <PageLayout />;
     };
+
+    const checkAuthUser = () => {
+
+    }
 
 
     return (

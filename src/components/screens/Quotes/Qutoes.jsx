@@ -4,22 +4,24 @@ import QuoteModal from "./QuotesModal";
 import styles from "./Quotes.module.scss"; // Import SCSS module
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { QUOTES } from "../../../assets/constants/app.constant";
+import apiService from "../../../config/services/ApiService";
 
 const QuotesList = () => {
-  const [quotes, setQuotes] = useState(QUOTES);
+  const [quotes, setQuotes] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    // Example code for fetching quotes from an API
-    // axios
-    //   .get("YOUR_GET_QUOTES_API_ENDPOINT")
-    //   .then((response) => {
-    //     setQuotes(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("There was an error fetching the quotes!", error);
-    //   });
+    getQuotes();
   }, []);
+
+  const getQuotes = async () => {
+    try {
+      let catData = await apiService.getQuotes();
+      setQuotes(catData?.results || []);
+    } catch {
+      console.log("Error fetching categories");
+    }
+  };
 
   const toggleModal = () => {
     setShowModal(!showModal);

@@ -1,40 +1,56 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styles from "./Quotes.module.scss"; // Import SCSS module
+import apiService from "../../../config/services/ApiService";
+import { toast } from "react-toastify";
 
-const QuoteModal = ({ toggleModal }) => {
+const QuoteModal = ({ toggleModal, categories = [] }) => {
   const [file, setFile] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [fileError, setFileError] = useState("");
+  const [categoryError, setCategoryError] = useState("");
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
+    setFileError(""); // Reset file error when file is selected
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+    setCategoryError(""); // Reset category error when selection changes
+    setFile(null); // Reset file when category changes
+  };
 
-      axios
-        .post("YOUR_UPLOAD_QUOTES_API_ENDPOINT", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log("File uploaded successfully", response.data);
-          toggleModal();
-          // Assuming you have a way to update quotes without full page reload
-        })
-        .catch((error) => {
-          console.error("There was an error uploading the file!", error);
-        });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let hasError = false;
+
+    // Validate file
+    if (!file) {
+      setFileError("File is required.");
+      hasError = true;
+    }
+
+    if (hasError) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    // formData.append("category", selectedCategory);
+
+    try {
+      let response = await apiService.quoteUploads(formData);
+
+      toast.success("Quotes Updated!!!");
+
+      console.log("resposne", response);
+    } catch {
+      toast.error("Something went wrong please try again!!!");
     }
   };
 
   return (
     <div
-      className={`modal show d-block  ${styles.modalBg}`}
+      className={`modal show d-block ${styles.modalBg}`}
       tabIndex="-1"
       role="dialog"
     >
@@ -64,8 +80,10 @@ const QuoteModal = ({ toggleModal }) => {
                   id="csvFile"
                   onChange={handleFileChange}
                   accept=".csv"
-                  required
                 />
+                {fileError && (
+                  <div className={styles.errorText}>{fileError}</div>
+                )}
               </div>
             </div>
             <div className={`modal-footer ${styles.modalFooter}`}>
@@ -79,6 +97,7 @@ const QuoteModal = ({ toggleModal }) => {
               <button
                 type="submit"
                 className={`btn btn-primary ${styles.btnPrimary}`}
+                disabled={!file} // Disable submit button if category or file is missing
               >
                 Upload
               </button>

@@ -1,11 +1,11 @@
 import React from "react";
 
 const APP_CONSTANTS = {
-  token: {
-    jwt: '',
-  },
   lang: "",
   params: {},
+  token: {},
+  user: {},
+  jwt: ""
 };
 
 const AppContext = React.createContext(APP_CONSTANTS);

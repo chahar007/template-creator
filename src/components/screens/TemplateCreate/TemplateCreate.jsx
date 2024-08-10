@@ -1,12 +1,15 @@
 import React, { useRef, useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import debounce from "lodash.debounce";
+import { useDispatch } from "react-redux";
+import { setUploadedImage } from "../../../config/redux/actions/ImageAction";
 
 const TemplateCreator = () => {
   const [textInput, setTextInput] = useState("");
   const [imageSrc, setImageSrc] = useState("");
   const [canvasLoaded, setCanvasLoaded] = useState(false);
   const canvasRef = useRef(null);
+  const dispatch = useDispatch();
 
   // Regular function to handle immediate text input changes
   const handleTextChange = (e) => {
@@ -26,6 +29,7 @@ const TemplateCreator = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageSrc(reader.result);
+
         drawCanvasDebounced(textInput); // Update canvas with current text input
       };
       reader.readAsDataURL(file);
@@ -34,6 +38,7 @@ const TemplateCreator = () => {
   const drawCanvas = (textValue) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    let base64 = "";
 
     const ctx = canvas.getContext("2d");
 
@@ -102,6 +107,10 @@ const TemplateCreator = () => {
         const maxWidth = canvasWidth * 0.8; // 80% of canvas width
         const lineHeight = 36; // Adjust as needed
         wrapText(ctx, textValue, maxWidth, lineHeight);
+
+        const base64 = canvas.toDataURL("image/png");
+        // console.log("base 64", base64);
+        dispatch(setUploadedImage({ uploadedImage: base64 }));
 
         setCanvasLoaded(true);
       };

@@ -50,12 +50,14 @@
 }
 
 .modalClose {
-    color: #aaa;
-    font-size: 28px;
     font-weight: bold;
+    background-color: unset;
+    outline: none;
+    border: none;
+    font-size: 30px;
 
     &:hover {
-        color: #000;
+        color: red;
         text-decoration: none;
         cursor: pointer;
     }

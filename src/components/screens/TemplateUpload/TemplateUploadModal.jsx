@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import styles from "./TemplateUpload.module.scss"; // Import SCSS module
+import apiService from "../../../config/services/ApiService";
+import { toast } from "react-toastify";
 
 const TemplateUploadModal = ({ toggleModal }) => {
   const [file, setFile] = useState(null);
@@ -9,25 +10,29 @@ const TemplateUploadModal = ({ toggleModal }) => {
     setFile(e.target.files[0]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
+    let hasError = false;
 
-      axios
-        .post("YOUR_UPLOAD_TEMPLATE_API_ENDPOINT", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log("File uploaded successfully", response.data);
-          toggleModal();
-        })
-        .catch((error) => {
-          console.error("There was an error uploading the file!", error);
-        });
+    // Validate file
+    if (!file) {
+      toast.error("Please select image!!!", { autoClose: 1000 });
+      return;
+    }
+
+    if (hasError) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      let response = await apiService.templateImageUpload(formData);
+
+      toast.success("Image Updated!!!");
+
+      console.log("resposne", response);
+    } catch {
+      toast.error("Something went wrong please try again!!!");
     }
   };
 
@@ -69,7 +74,7 @@ const TemplateUploadModal = ({ toggleModal }) => {
               <div className={`text-center ${styles.modalFooter}`}>
                 <button
                   type="button"
-                  className={`btn btn-secondary ${styles.btnSecondary}`}
+                  className={`btn btn-secondary mx-2 ${styles.btnSecondary}`}
                   onClick={toggleModal}
                 >
                   Close

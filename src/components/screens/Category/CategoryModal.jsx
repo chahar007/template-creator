@@ -2,18 +2,40 @@ import React, { useState } from "react";
 import axios from "axios";
 import styles from "./Category.module.scss"; // Import SCSS module
 import apiService from "../../../config/services/ApiService";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
-const CategoryModal = ({ toggleModal }) => {
+const CategoryModal = ({ toggleModal, editDetails }) => {
   const [title, setTitle] = useState("");
 
   const handleSubmit = async (e) => {
     let payload = {
       name: title,
     };
-    let response = await apiService.postCategoryData(payload);
-    // if (response.status === 200) {
-    toggleModal();
+    try {
+      if (!editDetails.id) {
+        let response = await apiService.postCategoryData(payload);
+        console.log(response);
+        toast.success("Category Added!!!");
+      } else {
+        let response = await apiService.updateCategoryData(
+          editDetails.id,
+          payload
+        );
+        toast.success("Category Updated!!!");
+        console.log(response);
+      }
+      toggleModal(true);
+    } catch {
+      toast.error("Something went wrong please try again!!!");
+    }
   };
+
+  useEffect(() => {
+    if (editDetails) {
+      setTitle(editDetails.name);
+    }
+  }, [editDetails]);
 
   return (
     <div
@@ -34,7 +56,8 @@ const CategoryModal = ({ toggleModal }) => {
             </button>
           </div>
           <div className={`modal-body ${styles.modalBody}`}>
-            <form onSubmit={handleSubmit}>
+            {/* <form onSubmit={handleSubmit}> */}
+            <form>
               <div className={`form-group ${styles.formGroup}`}>
                 <label htmlFor="categoryTitle" className={styles.label}>
                   Title
@@ -50,7 +73,8 @@ const CategoryModal = ({ toggleModal }) => {
               </div>
               <div className={`text-center ${styles.modalFooter}`}>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleSubmit}
                   className={`btn btn-primary mt-3 ${styles.btnPrimary}`}
                 >
                   Submit

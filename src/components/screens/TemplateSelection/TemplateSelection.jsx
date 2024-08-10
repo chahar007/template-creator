@@ -44,7 +44,7 @@ const TemplateSelection = () => {
                 {loading ? (
                   <option disabled>Loading...</option>
                 ) : (
-                  dropdownData1.map((option) => (
+                  dropdownData1?.map((option) => (
                     <option key={option.id} value={option.value}>
                       {option.label}
                     </option>
@@ -62,7 +62,7 @@ const TemplateSelection = () => {
                 {loading ? (
                   <option disabled>Loading...</option>
                 ) : (
-                  dropdownData2.map((option) => (
+                  dropdownData2?.map((option) => (
                     <option key={option.id} value={option.value}>
                       {option.label}
                     </option>
