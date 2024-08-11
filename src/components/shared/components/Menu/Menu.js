@@ -21,7 +21,7 @@ const Menu = () => {
         { path: '/category', label: 'Category' },
         { path: '/quotes', label: 'Quotes' },
         { path: '/template-upload', label: 'Templates' },
-        { path: '/template-selection', label: 'Templates Selection' },
+        // { path: '/template-selection', label: 'Templates Selection' },
         { path: '/template-creation', label: 'Templates Creation' },
         { path: '/video-creation', label: 'Video Generation' },
     ];
