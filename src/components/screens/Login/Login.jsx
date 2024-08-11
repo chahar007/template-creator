@@ -26,7 +26,7 @@ const Login = () => {
       APP_CONSTANTS.jwt = storedToken;
       APP_CONSTANTS.token = JSON.parse(storedTokens);
       auth.setIsAuth(true);
-      navigate("/category");
+      navigate("/bulk-templates-generator");
     }
   }, [auth, navigate]);
 
@@ -82,7 +82,7 @@ const Login = () => {
         toast.success("Login successful!!!", { autoClose: 2000 });
 
         setTimeout(() => {
-          navigate("/category");
+          navigate("/demo");
         }, 1000);
       } catch (error) {
         setIsLoading(false);

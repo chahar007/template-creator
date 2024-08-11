@@ -10,6 +10,8 @@ import TemplateUpload from './TemplateUpload/TemplateUpload';
 import TemplateSelection from './TemplateSelection/TemplateSelection';
 import TemplateCreate from './TemplateCreate/TemplateCreate';
 import VideoGeneration from './VideoGeneration/VideoGeneration';
+import GenerateBulkTemplate from './GenerateBulkTemplate/GenerateBulkTemplate';
+import Demo from './Demo/Demo';
 
 export default {
     Main,
@@ -22,5 +24,7 @@ export default {
     TemplateUpload,
     TemplateSelection,
     TemplateCreate,
-    VideoGeneration
+    VideoGeneration,
+    GenerateBulkTemplate,
+    Demo
 }

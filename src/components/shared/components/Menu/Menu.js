@@ -23,6 +23,7 @@ const Menu = () => {
         { path: '/template-upload', label: 'Templates' },
         // { path: '/template-selection', label: 'Templates Selection' },
         { path: '/template-creation', label: 'Templates Creation' },
+        { path: '/bulk-templates-generator', label: 'Bulk Templates Creation' },
         { path: '/video-creation', label: 'Video Generation' },
     ];
 

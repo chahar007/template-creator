@@ -5,6 +5,7 @@ import './route.scss';
 import AuthProvider, { useAuth } from '../utils/AuthProvider';
 import Header from '../../components/shared/components/Header/Header';
 import PageLayout from '../../components/shared/components/PageLayout/PageLayout';
+import { compileString } from 'sass';
 
 const AUTH_ROUTES = [
     {
@@ -42,6 +43,14 @@ const AUTH_ROUTES = [
     {
         path: '/video-creation',
         component: pages.VideoGeneration,
+    },
+    {
+        path: '/bulk-templates-generator',
+        component: pages.GenerateBulkTemplate
+    },
+    {
+        path: '/demo',
+        component: pages.Demo
     }
 ]
 
@@ -79,16 +88,11 @@ const AppRoute = () => {
     };
 
 
-    const PrivateRoute = () => {
+    const PrivateRoute = (path) => {
         const user = useAuth();
-        if (!user.isAuth || checkAuthUser()) return <Navigate to="/login" />;
+        if (!user.isAuth) return <Navigate to="/login" />;
         return <PageLayout />;
     };
-
-    const checkAuthUser = () => {
-
-    }
-
 
     return (
 

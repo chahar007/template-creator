@@ -1,20 +1,20 @@
 // reducers/paramReducer.js
 import {
-    GET_UPLOADED_IMAGE,
-    SET_UPLOADED_IMAGE
-} from '../actions/ImageAction';
+    GET_CATEGORY,
+    SET_CATEGORY
+} from '../actions/category';
 
 const initialState = {
-    uploadedImage: null
+    data: []
 };
 
-const ImageReducer = (state = initialState, action) => {
+const CategoryReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_UPLOADED_IMAGE:
+        case GET_CATEGORY:
             return {
                 ...state,
             };
-        case SET_UPLOADED_IMAGE:
+        case SET_CATEGORY:
             return {
                 ...state, ...action.payload,
             };
@@ -23,4 +23,4 @@ const ImageReducer = (state = initialState, action) => {
     }
 };
 
-export default ImageReducer;
+export default CategoryReducer;
