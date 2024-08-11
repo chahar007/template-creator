@@ -1,61 +1,125 @@
 import React, { useState, useEffect } from "react";
-import TemplateUploadModal from "./TemplateUploadModal"; // Import TemplateUpload
-import styles from "./TemplateUpload.module.scss"; // Import SCSS module
-import { QUOTES } from "../../../assets/constants/app.constant";
+import TemplateUploadModal from "./TemplateUploadModal";
+import styles from "./TemplateUpload.module.scss";
+import apiService from "../../../config/services/ApiService";
+import CustomPagination from "../../shared/components/CustomPagination"; // Import the pagination component
 
 const TemplateUpload = () => {
-  const [categories, setCategories] = useState(QUOTES);
+  const [categories, setCategories] = useState([]);
+  const [templates, setTemplates] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1); // Current page state
+  const [totalPages, setTotalPages] = useState(1); // Total pages state
 
   useEffect(() => {
-    // Example code for fetching categories from an API
-    // axios
-    //   .get("YOUR_GET_API_ENDPOINT")
-    //   .then((response) => {
-    //     setCategories(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("There was an error fetching the categories!", error);
-    //   });
+    fetchCategories();
   }, []);
 
-  const toggleModal = () => {
+  const fetchCategories = async () => {
+    try {
+      let catData = await apiService.getCategoryData();
+      setCategories(catData?.results || []);
+    } catch {
+      console.log("Error fetching categories");
+    }
+  };
+
+  const fetchTemplates = async (categoryId, page = 1) => {
+    try {
+      let tempData = await apiService.getTemplates(categoryId, page);
+      setTemplates(tempData?.results || []);
+      setTotalPages(tempData?.totalPages || 1);
+    } catch {
+      console.log("Error fetching templates");
+    }
+  };
+
+  const handleCategoryChange = (e) => {
+    const categoryId = e.target.value;
+    setSelectedCategory(categoryId);
+    setCurrentPage(1);
+    fetchTemplates(categoryId, 1);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    fetchTemplates(selectedCategory, page);
+  };
+
+  const toggleModal = (arg) => {
+    if (arg) {
+      fetchTemplates(selectedCategory);
+    }
     setShowModal(!showModal);
   };
 
   return (
     <div className={`${styles.categoryContainer}`}>
-      <div className="d-flex justify-content-between">
-        <h2 className="mb-4">Categories</h2>
-        <button className="btn btn-primary mb-3" onClick={toggleModal}>
-          Upload Template
-        </button>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Categories</h2>
+        <div className="d-flex align-items-center gap-2">
+          <select
+            className="form-select mr-3"
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+          >
+            <option value="" disabled>
+              Select a category
+            </option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          <button
+            className="btn btn-primary "
+            style={{ whiteSpace: "nowrap" }}
+            onClick={toggleModal}
+          >
+            Upload Template
+          </button>
+        </div>
       </div>
       <table className={`table table-striped ${styles.categoryTable}`}>
         <thead>
           <tr key={"head"}>
             <th scope="col">S.No</th>
-            <th scope="col">Category</th>
-            <th scope="col">Name</th>
-            <th scope="col">Action</th>
+            <th scope="col">Image</th>
           </tr>
         </thead>
         <tbody>
-          {categories.map((category, index) => (
-            <tr key={category.id}>
+          {templates.map((template, index) => (
+            <tr key={template.id}>
               <td scope="row">{index + 1}</td>
-              <td>{category.category}</td>
-              <td>{category.title}</td>
               <td>
-                <button className="btn btn-warning btn-sm mx-2">Edit</button>
-                <button className="btn btn-danger btn-sm mx-2 ">Delete</button>
+                <img
+                  width={100}
+                  height={100}
+                  src={template.imageUrl}
+                  alt="template"
+                />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {showModal && <TemplateUploadModal toggleModal={toggleModal} />}
+      {templates.length > 0 && (
+        <CustomPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
+
+      {showModal && (
+        <TemplateUploadModal
+          toggleModal={toggleModal}
+          categories={categories}
+        />
+      )}
     </div>
   );
 };

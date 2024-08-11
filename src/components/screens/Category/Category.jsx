@@ -2,35 +2,48 @@ import React, { useState, useEffect } from "react";
 import CategoryModal from "./CategoryModal";
 import styles from "./Category.module.scss"; // Import SCSS module
 import apiService from "../../../config/services/ApiService";
+import Loader from "../../shared/components/Loader/Loader";
+import CustomPagination from "../../shared/components/CustomPagination"; // Import CustomPagination
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1); // State for total pages
 
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    fetchCategories(currentPage);
+  }, [currentPage]);
 
-  const fetchCategories = async () => {
+  const fetchCategories = async (page) => {
+    setIsLoading(true);
     try {
-      let catData = await apiService.getCategoryData();
-      setCategories(catData?.results || []);
+      let catData = await apiService.getCategoryData({ page });
+      setCategories(catData.results || []);
+      setTotalPages(catData.totalPages || 1); // Set total pages from API response
     } catch {
       console.log("Error fetching categories");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const toggleModal = (val) => {
     if (val) {
-      fetchCategories();
+      fetchCategories(currentPage);
     }
     setShowModal(!showModal);
   };
 
-  const editCategory = (id) => {
+  const editCategory = (category) => {
+    setEditData(category);
     setShowModal(true);
-    setEditData(id);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page); // Update current page
   };
 
   return (
@@ -52,7 +65,7 @@ const Category = () => {
         <tbody>
           {categories.map((category, index) => (
             <tr key={category.id}>
-              <td scope="row">{category.id}</td>
+              <td scope="row">{index + 1}</td>
               <td>{category.name}</td>
               <td>
                 <button
@@ -71,6 +84,15 @@ const Category = () => {
       {showModal && (
         <CategoryModal toggleModal={toggleModal} editDetails={editData} />
       )}
+
+      <Loader isLoading={isLoading} message="Fetching data..." />
+
+      {/* Add Pagination Component */}
+      <CustomPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

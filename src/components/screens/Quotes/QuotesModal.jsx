@@ -4,21 +4,13 @@ import styles from "./Quotes.module.scss"; // Import SCSS module
 import apiService from "../../../config/services/ApiService";
 import { toast } from "react-toastify";
 
-const QuoteModal = ({ toggleModal, categories = [] }) => {
+const QuoteModal = ({ toggleModal, editData }) => {
   const [file, setFile] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState("");
   const [fileError, setFileError] = useState("");
-  const [categoryError, setCategoryError] = useState("");
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
     setFileError(""); // Reset file error when file is selected
-  };
-
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
-    setCategoryError(""); // Reset category error when selection changes
-    setFile(null); // Reset file when category changes
   };
 
   const handleSubmit = async (e) => {
@@ -43,6 +35,8 @@ const QuoteModal = ({ toggleModal, categories = [] }) => {
       toast.success("Quotes Updated!!!");
 
       console.log("resposne", response);
+
+      toggleModal(true);
     } catch {
       toast.error("Something went wrong please try again!!!");
     }

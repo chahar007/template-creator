@@ -2,37 +2,56 @@ import React, { useState } from "react";
 import styles from "./TemplateUpload.module.scss"; // Import SCSS module
 import apiService from "../../../config/services/ApiService";
 import { toast } from "react-toastify";
+import Loader from "../../shared/components/Loader/Loader";
 
-const TemplateUploadModal = ({ toggleModal }) => {
+const TemplateUploadModal = ({ toggleModal, categories }) => {
   const [file, setFile] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let hasError = false;
+    setIsLoading(true);
 
-    // Validate file
-    if (!file) {
-      toast.error("Please select image!!!", { autoClose: 1000 });
+    // Validation
+    if (!selectedCategory) {
+      toast.error("Please select a category!", { autoClose: 1000 });
       return;
     }
 
-    if (hasError) return;
+    if (!file) {
+      toast.error("Please select an image!", { autoClose: 1000 });
+      return;
+    }
 
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("category", selectedCategory);
 
     try {
-      let response = await apiService.templateImageUpload(formData);
+      let response = await apiService.imageUpload(formData);
 
-      toast.success("Image Updated!!!");
-
-      console.log("resposne", response);
+      if (response) {
+        let payload = {
+          categoryId: selectedCategory,
+          imageUrl: response.url,
+        };
+        let templateRes = await apiService.templateUpload(payload);
+        toast.success("Image Uploaded Successfully!");
+      }
     } catch {
-      toast.error("Something went wrong please try again!!!");
+      toast.error("Something went wrong, please try again!");
+    } finally {
+      toggleModal(true);
+      setIsLoading(false);
     }
   };
 
@@ -58,6 +77,25 @@ const TemplateUploadModal = ({ toggleModal }) => {
           </div>
           <div className={`modal-body ${styles.modalBody}`}>
             <form onSubmit={handleSubmit}>
+              <div className={`form-group ${styles.formGroup}`}>
+                <label htmlFor="categorySelect" className={styles.label}>
+                  Select Category:
+                </label>
+                <select
+                  id="categorySelect"
+                  className={`form-control mt-2 ${styles.input}`}
+                  value={selectedCategory}
+                  onChange={handleCategoryChange}
+                  required
+                >
+                  <option value="">Select a category</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className={`form-group ${styles.formGroup}`}>
                 <label htmlFor="templateFile" className={styles.label}>
                   Choose Image File:
@@ -90,6 +128,7 @@ const TemplateUploadModal = ({ toggleModal }) => {
           </div>
         </div>
       </div>
+      <Loader isLoading={isLoading} message="Uploading data..." />
     </div>
   );
 };

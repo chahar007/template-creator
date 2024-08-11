@@ -53,9 +53,40 @@ const apiService = {
     },
 
 
-    templateImageUpload: async (payload) => {
+    deleteQuote: async (payload) => {
+        try {
+            let response = await axios.post(`${process.env.REACT_APP_API_HOST}/quotes/upload`, payload, {});
+            return response.data;
+        } catch (error) {
+            // console.error('Error fetching dropdown 2 data:', error);
+            //throw error;
+        }
+    },
+
+
+    imageUpload: async (payload) => {
         try {
             let response = await axios.post(`${process.env.REACT_APP_API_HOST}/image/upload`, payload, {});
+            return response.data;
+        } catch (error) {
+            // console.error('Error fetching dropdown 2 data:', error);
+            //throw error;
+        }
+    },
+
+    templateUpload: async (payload) => {
+        try {
+            let response = await axios.post(`${process.env.REACT_APP_API_HOST}/category/${payload.categoryId}/image`, payload, {});
+            return response.data;
+        } catch (error) {
+            // console.error('Error fetching dropdown 2 data:', error);
+            //throw error;
+        }
+    },
+
+    getTemplates: async (catId) => {
+        try {
+            let response = await axios.get(`${process.env.REACT_APP_API_HOST}/category/${catId}/image`,);
             return response.data;
         } catch (error) {
             // console.error('Error fetching dropdown 2 data:', error);
