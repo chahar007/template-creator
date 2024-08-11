@@ -123,7 +123,9 @@ const GenerateBulkTemplate = () => {
 
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(content, "templates.zip");
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     });
   };
 
@@ -172,7 +174,7 @@ const GenerateBulkTemplate = () => {
       <button
         className={styles.button}
         onClick={generateTemplates}
-        disabled={!quotes.length}
+        disabled={!quotes.length && !selectedCategory}
       >
         Generate Templates
       </button>
@@ -195,11 +197,18 @@ const GenerateBulkTemplate = () => {
         </div>
       </div>
       {currentIndex > -1 && generatedPayload.length && (
-        <TemplateGenerate
-          tempData={generatedPayload[currentIndex]}
-          onImageGenerated={tempOutput}
-        />
+        <div className={styles.templateGeneratorContianer}>
+          <TemplateGenerate
+            tempData={generatedPayload[currentIndex]}
+            onImageGenerated={tempOutput}
+          />
+        </div>
       )}
+
+      <Loader
+        isLoading={isLoading}
+        message="Processing your request please wait..."
+      />
     </div>
   );
 };
