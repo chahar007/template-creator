@@ -1,0 +1,33 @@
+/* VideoGeneration.module.scss */
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.videoContainer {
+  margin-top: 20px;
+  text-align: center;
+
+  video {
+    max-width: 300px; // Limit max width to 300px
+    max-height: 300px; // Limit max height to 300px
+    width: 100%; // Ensure responsiveness
+    height: auto; // Maintain aspect ratio
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .videoContainer {
+    video {
+      width: 100%; // Make the video responsive on smaller screens
+      height: auto; // Maintain aspect ratio
+    }
+  }
+}
