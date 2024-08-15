@@ -16,7 +16,11 @@ const TemplateGenerate = ({ tempData, onImageGenerated }) => {
       (canvas) => {
         const base64Image = canvas.toDataURL("image/png");
         if (onImageGenerated) {
-          onImageGenerated(base64Image);
+          let payload = {
+            image64: base64Image,
+            ...tempData,
+          };
+          onImageGenerated(payload);
         }
       }
     );

@@ -63,6 +63,11 @@
     &:hover {
         background-color: #0056b3;
     }
+
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
 }
 
 .output {

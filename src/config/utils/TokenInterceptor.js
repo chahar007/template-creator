@@ -5,9 +5,8 @@ axios.interceptors.request.use(
   (request) => {
     const token = APP_CONSTANTS.jwt || localStorage.getItem("jwt");
 
-    if (token) {
+    if (token && !request.url.includes("wp-json/wp")) {
       request.headers["Authorization"] = "Bearer " + token;
-      // request.headers["Cookie"] = 'connect.sid=s%3AcfFEJy8i-tYzeM4wLTKiJYV0SUAah4sb.N6UeKmfcCR8d3Lgp7D5EQoigb2ob%2F%2BXh1Yq6bsXdhts';
     }
 
     return request;

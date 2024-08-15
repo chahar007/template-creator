@@ -92,8 +92,37 @@ const apiService = {
             // console.error('Error fetching dropdown 2 data:', error);
             //throw error;
         }
-    }
+    },
 
+    imageUploadToWP: async (payload) => {
+        try {
+            const response = await axios.post('https://gratifytech.com/admin/wp-json/wp/v2/media', payload, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Basic YWRtaW46Z3JJTyBjOUh1IFJVTHcgZ1htcSBLS09tIFNRZjg=', // Your base64-encoded credentials
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw error;
+        }
+    },
+
+    schedulePost: async (payload) => {
+        try {
+            const response = await axios.post('https://gratifytech.com/admin/wp-json/wp/v2/posts', payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic YWRtaW46Z3JJTyBjOUh1IFJVTHcgZ1htcSBLS09tIFNRZjg=', // Your base64-encoded credentials
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw error;
+        }
+    }
 
 };
 

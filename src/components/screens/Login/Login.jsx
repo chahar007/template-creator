@@ -30,6 +30,17 @@ const Login = () => {
     }
   }, [auth, navigate]);
 
+  useEffect(() => {
+    getSyncTime();
+  }, []);
+
+  const getSyncTime = async () => {
+    try {
+      let res = await loginService.syncTime();
+      console.log("res", res);
+    } catch {}
+  };
+
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 

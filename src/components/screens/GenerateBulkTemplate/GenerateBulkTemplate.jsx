@@ -88,6 +88,7 @@ const GenerateBulkTemplate = () => {
 
   const tempOutput = (image) => {
     setTemplateOutput((prevOutput) => [...prevOutput, image]);
+    console.log({ templateOutput });
     setCurrentIndex((prevIndex) => {
       const newIndex = prevIndex + 1;
       if (newIndex < generatedPayload.length) {
@@ -101,7 +102,70 @@ const GenerateBulkTemplate = () => {
   };
 
   const downloadTemplates = () => {
-    downloadZip(templateOutput);
+    // downloadZip(templateOutput);
+    handleUpload();
+  };
+
+  const handleUpload = async () => {
+    const results = [];
+    for (const template of templateOutput) {
+      try {
+        const formData = new FormData();
+        let file = base64ToFile(template.image64, "template.png");
+        formData.append("file", file);
+        formData.append("type", "image/png");
+        const response = await apiService.imageUploadToWP(formData);
+        schedulePost(template, response.id);
+        // results.push({ file: file.name, status: "success", response });
+
+        console.log("Upload successful:", response);
+      } catch (error) {
+        // results.push({ file: file.name, status: "error", error });
+        console.error("Error uploading image:", error);
+      }
+    }
+    // setUploadResults(results);
+  };
+
+  const base64ToFile = (base64String, fileName) => {
+    if (!base64String) return;
+    // Ensure the base64 string is correctly formatted
+    const base64Data = base64String.replace(/^data:.+;base64,/, "");
+    const mime = base64String.match(/^data:(.+);base64,/);
+
+    if (!mime) {
+      throw new Error("Invalid Base64 string format.");
+    }
+
+    // Decode base64 string to binary
+    const byteCharacters = atob(base64Data);
+    const byteNumbers = new Array(byteCharacters.length);
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+
+    // Create a Blob from the byte array
+    const blob = new Blob([byteArray], { type: mime[1] });
+
+    // Convert the Blob to a File object
+    return new File([blob], fileName, { type: mime[1] });
+  };
+
+  const schedulePost = async (temp, id) => {
+    let payload = {
+      title: temp.textInput,
+      content: temp.textInput,
+      status: "publish",
+      featured_media: id,
+      categories: 52,
+    };
+
+    try {
+      let response = await apiService.schedulePost(payload);
+    } catch {}
   };
 
   const downloadZip = (base64Images) => {
@@ -130,12 +194,21 @@ const GenerateBulkTemplate = () => {
   };
 
   const syncPayload = (images, quotes) => {
-    return quotes.map((quote) => ({
-      image:
-        "https://res.cloudinary.com/daxa0ufcm/image/upload/v1723399788/1723399787822.png",
-      authorText: quote.quote_by,
-      textInput: quote.caption,
-    }));
+    let data = [];
+    images.forEach((img) => {
+      quotes.map((quote, index) => {
+        let payload = {
+          image: img.imageUrl,
+          authorText: quote.quote_by,
+          textInput: quote.caption,
+          id: index,
+        };
+
+        data.push(payload);
+      });
+    });
+    console.log("payload", data);
+    return data;
   };
 
   return (
@@ -172,9 +245,10 @@ const GenerateBulkTemplate = () => {
         )}
       </div>
       <button
-        className={styles.button}
+        className={`${styles.button} ${
+          !quotes.length || !selectedCategory ? styles.disabled : ""
+        } `}
         onClick={generateTemplates}
-        disabled={!quotes.length && !selectedCategory}
       >
         Generate Templates
       </button>
@@ -189,7 +263,7 @@ const GenerateBulkTemplate = () => {
           {templateOutput.map((output, index) => (
             <img
               key={index}
-              src={output}
+              src={output.image64}
               alt={`Generated Template ${index}`}
               className={styles.generatedImage}
             />

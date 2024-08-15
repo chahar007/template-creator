@@ -12,6 +12,16 @@ const loginService = {
         }
     },
 
+    syncTime: async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_HOST}/health`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching dropdown 1 data:', error);
+            throw error;
+        }
+    },
+
 
 };
 
