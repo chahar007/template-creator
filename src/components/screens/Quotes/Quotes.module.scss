@@ -111,3 +111,39 @@
         /* Darker shade for hover */
     }
 }
+
+
+.imageContainer {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    cursor: pointer;
+    border: 2px solid transparent;
+
+    &.selected {
+        border-color: blue;
+        /* Highlight selected images */
+    }
+}
+
+.caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.2em;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    white-space: nowrap;
+}
+
+.quoteBy {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: white;
+    font-size: 1em;
+    text-align: right;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
