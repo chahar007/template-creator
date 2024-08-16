@@ -17,7 +17,13 @@ const handleError = (error) => {
 
         if (statusCode === 401) {
             // Optionally, handle unauthorized error
+            // Update the APP_CONSTANTS
+            localStorage.setItem("user", '');
+            localStorage.setItem("jwt", '');
+            localStorage.setItem("tokens", '');
             window.location.href = '/login'; // Redirect to login
+
+
         }
     } else if (error.request) {
         toast.error('Network error, please check your connection.');

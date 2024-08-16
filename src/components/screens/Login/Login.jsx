@@ -27,6 +27,16 @@ const Login = () => {
       APP_CONSTANTS.token = JSON.parse(storedTokens);
       auth.setIsAuth(true);
       navigate("/video-creation");
+    } else {
+      auth.setIsAuth(false);
+
+      localStorage.setItem("user", "");
+      localStorage.setItem("jwt", "");
+      localStorage.setItem("tokens", "");
+
+      APP_CONSTANTS.user = null;
+      APP_CONSTANTS.jwt = null;
+      APP_CONSTANTS.token = null;
     }
   }, [auth, navigate]);
 
