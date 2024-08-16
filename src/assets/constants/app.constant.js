@@ -27,3 +27,11 @@ export const QUOTES = [
         category: 'education',
     }
 ]
+
+export const FONT_FAMILIES = {
+    "montserrat": `'Montserrat', sans- serif`,
+    "nunito": `'Nunito', sans-serif`,
+    "poppins": `'Poppins', sans-serif`,
+    "arial": `'Arial', sans-serif`,
+    'handwriting': `'Dancing Script', cursive`
+}
