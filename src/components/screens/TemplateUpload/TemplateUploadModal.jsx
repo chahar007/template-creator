@@ -57,11 +57,6 @@ const TemplateUploadModal = ({ toggleModal, categories }) => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("category", selectedCategory);
-    formData.append("color", selectedColor);
-    formData.append("font", selectedFont);
-    formData.append("fontWeight", selectedFontWeight);
-
     try {
       let response = await apiService.imageUpload(formData);
 
