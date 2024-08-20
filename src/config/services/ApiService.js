@@ -122,7 +122,41 @@ const apiService = {
             console.error('Error uploading image:', error);
             throw error;
         }
+    },
+
+
+    bulkTemplateUpload: async (payload) => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_HOST}/temporaryposts/bulk`, payload);
+            return response.data;
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw error;
+        }
+    },
+
+    getBulkUpload: async (id) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_HOST}/temporaryposts?categoryId=${id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw error;
+        }
+    },
+
+    goLive: async (id) => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_HOST}/socialmedia/golive`);
+            return response.data;
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw error;
+        }
     }
+
+
+
 
 };
 

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Loader from "../../shared/components/Loader/Loader";
 import CustomPagination from "../../shared/components/CustomPagination"; // Import CustomPagination
 import LoadTemplates from "./LoadTemplates";
+import { useNavigate } from "react-router-dom";
 
 const QuotesList = () => {
   const [quotes, setQuotes] = useState([]);
@@ -18,6 +19,7 @@ const QuotesList = () => {
   const [totalPages, setTotalPages] = useState(1); // State for total pages
   const [quote, setQuote] = useState(null);
   const [loadImagePreview, setLoadImagePreivew] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getQuotes(currentPage); // Fetch quotes for the current page
@@ -63,12 +65,13 @@ const QuotesList = () => {
   };
 
   const createTemplate = (quote) => {
-    setQuote(quote);
-    if (!templates.length) {
-      fetchTemplates(quote.category_id, 1);
-    } else {
-      setLoadImagePreivew(true);
-    }
+    navigate("/temp-upload", { state: quote });
+    // setQuote(quote);
+    // if (!templates.length) {
+    //   fetchTemplates(quote.category_id, 1);
+    // } else {
+    //   setLoadImagePreivew(true);
+    // }
   };
 
   useEffect(() => {
@@ -76,8 +79,6 @@ const QuotesList = () => {
       setLoadImagePreivew(true);
     }
   }, [templates]);
-
-  const loadTemplates = () => {};
 
   const fetchTemplates = async (categoryId, page = 1) => {
     try {

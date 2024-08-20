@@ -51,6 +51,14 @@ const AUTH_ROUTES = [
     {
         path: '/demo',
         component: pages.Demo
+    },
+    {
+        path: '/temp-upload',
+        component: pages.TempUpload
+    },
+    {
+        path: '/temp-uploads-list',
+        component: pages.TempUploadsList
     }
 ]
 
