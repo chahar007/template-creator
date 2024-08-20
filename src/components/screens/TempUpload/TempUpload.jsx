@@ -89,8 +89,8 @@ const TempUpload = () => {
             allowTaint: false,
           });
 
-          const dataUrl = canvas.toDataURL("image/png");
-          let _file = base64ToFile(dataUrl, "image.png");
+          const dataUrl = canvas.toDataURL("image/jpeg");
+          let _file = base64ToFile(dataUrl, "image.jpeg");
           const formData = new FormData();
           formData.append("file", _file);
 
