@@ -51,7 +51,6 @@ h3 {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    border: 2px solid transparent;
     border-radius: 12px;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -62,7 +61,7 @@ h3 {
     max-width: calc(33.333% - 20px);
 
     &.selected {
-        border-color: #28a745;
+        border: 2px solid #28a745;
         background-color: rgba(40, 167, 69, 0.1);
     }
 }

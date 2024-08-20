@@ -3,12 +3,16 @@ import { useLocation } from "react-router-dom";
 import styles from "./TempUpload.module.scss";
 import html2canvas from "html2canvas";
 import apiService from "../../../config/services/ApiService";
+import Loader from "../../shared/components/Loader/Loader";
+import { useNavigate } from "react-router-dom";
 
 const TempUpload = () => {
   const location = useLocation();
   const data = location.state;
   const [templates, setTemplates] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchTemplates();
@@ -68,6 +72,7 @@ const TempUpload = () => {
 
   const handleUpload = async () => {
     let bulkTempData = [];
+    setIsLoading(true);
     for (const imageId of selectedImages) {
       const imageElement = document.getElementById(`image-${imageId}`);
       if (imageElement) {
@@ -137,6 +142,8 @@ const TempUpload = () => {
   const bulkUpload = async (tempData) => {
     try {
       let response = await apiService.bulkTemplateUpload(tempData);
+      setIsLoading(false);
+      navigate("/temp-uploads-list");
       console.log(response);
     } catch {}
   };
@@ -220,6 +227,8 @@ const TempUpload = () => {
           </div>
         ))}
       </div>
+
+      <Loader isLoading={isLoading} message="Fetching data..." />
     </div>
   );
 };
