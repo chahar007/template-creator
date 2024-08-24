@@ -57,7 +57,7 @@ const TemplateUpload = () => {
   return (
     <div className={`${styles.categoryContainer}`}>
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Categories</h2>
+        <h2>Templates</h2>
         <div className="d-flex align-items-center gap-2">
           <select
             className="form-select mr-3"
@@ -87,6 +87,7 @@ const TemplateUpload = () => {
           <tr key={"head"}>
             <th scope="col">S.No</th>
             <th scope="col">Image</th>
+            <th scope="col">Details</th>
           </tr>
         </thead>
         <tbody>
@@ -100,6 +101,19 @@ const TemplateUpload = () => {
                   src={template.imageUrl}
                   alt="template"
                 />
+              </td>
+              <td>
+                <ul type="none">
+                  <li>
+                    Color: <b>{template.color}</b>
+                  </li>
+                  <li>
+                    Font: <b>{template.font}</b>
+                  </li>
+                  <li>
+                    FontWeight: <b>{template.fontWeight}</b>
+                  </li>
+                </ul>
               </td>
             </tr>
           ))}
