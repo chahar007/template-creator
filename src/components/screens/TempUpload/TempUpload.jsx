@@ -86,10 +86,13 @@ const TempUpload = () => {
           // Capture the canvas with the required options
           const canvas = await html2canvas(imageElement, {
             useCORS: true,
+            scale: 6, // Increase the scale for better quality
+            width: imageElement.scrollWidth, // Set the width
+            height: imageElement.scrollHeight, // Set the height
             allowTaint: false,
           });
 
-          const dataUrl = canvas.toDataURL("image/jpeg");
+          const dataUrl = canvas.toDataURL("image/jpeg", 1.0);
           let _file = base64ToFile(dataUrl, "image.jpeg");
           const formData = new FormData();
           formData.append("file", _file);
