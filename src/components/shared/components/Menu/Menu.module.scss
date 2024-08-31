@@ -1,39 +1,120 @@
 .sidebar {
-    background-color: #e0f7fa;
+    background-color: #1e2a38;
+    /* Dark background for the sidebar */
     height: 100%;
+    padding: 20px 0;
+    /* Add padding for spacing */
+    width: 100%;
+    /* Fixed width for the sidebar */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
 }
 
 .navLink {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    color: #333;
-    /* Default link color */
-    // transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 12px 20px;
+    /* Increased padding for better spacing */
+    margin-bottom: 10px;
+    /* Add space between items */
+    color: #cfd8dc;
+    /* Light grey text color */
+    font-size: 16px;
+    /* Slightly larger font size */
+    font-weight: 500;
+    /* Medium font weight */
+    border-radius: 4px;
+    /* Rounded corners */
+    position: relative;
+    /* For positioning active strip */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .navLink:hover {
     background-color: #007bff;
-    /* Lighter background color on hover */
-    color: #000;
-    /* Text color on hover */
+    /* Primary color background on hover */
+    color: #fff;
+    /* White text color on hover */
 }
 
 .active {
-    background-color: blueviolet;
-    /* Active background color */
+    background-color: #007bff;
+    /* Primary color for active link */
     color: #fff;
-    /* Active text color */
+    /* White text color */
 }
 
 .activeStrip {
     position: absolute;
     bottom: 0;
     left: 0;
-    // width: 4px;
-    /* Adjust width of active strip */
+    width: 4px;
+    /* Narrow strip for active state */
     height: 100%;
-    background-color: #fff;
-    /* Color of active strip */
+    background-color: #ffeb3b;
+    /* Bright yellow for contrast */
+}
+
+.groupLabel {
+    padding: 12px 20px;
+    /* Increased padding for group labels */
+    margin-bottom: 8px;
+    /* Space below group labels */
+    color: #b0bec5;
+    /* Lighter grey for group labels */
+    font-size: 14px;
+    /* Smaller font size for group labels */
+    font-weight: 600;
+    /* Bolder font for emphasis */
+    cursor: pointer;
+    /* Pointer cursor to indicate interactivity */
+    background-color: #263238;
+    /* Darker background for group labels */
+    border-radius: 4px;
+    /* Rounded corners for group labels */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.groupLabel:hover {
+    background-color: #37474f;
+    /* Darker shade on hover */
+    color: #eceff1;
+    /* Slightly lighter text on hover */
+}
+
+.expanded .groupLabel {
+    background-color: #37474f;
+    /* Background when expanded */
+    color: #fff;
+    /* White text when expanded */
+}
+
+.subNav {
+    padding-left: 20px;
+    /* Indent for nested items */
+    margin-bottom: 10px;
+    /* Space between sub-nav groups */
+    border-left: 2px solid #007bff;
+    /* Left border for differentiation */
+}
+
+.subNavLink {
+    padding: 10px 20px;
+    /* Spacing for nested links */
+    margin-bottom: 8px;
+    /* Space between nested links */
+    font-size: 14px;
+    /* Smaller font size for sub-items */
+    color: #90a4ae;
+    /* Even lighter grey for sub-items */
+    border-radius: 4px;
+    /* Rounded corners for sub-items */
+}
+
+.subNavLink:hover {
+    background-color: #37474f;
+    /* Darker background on hover */
+    color: #fff;
+    /* White text on hover */
 }
