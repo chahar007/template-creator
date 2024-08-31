@@ -137,7 +137,7 @@ const apiService = {
 
     getBulkUpload: async (id) => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_HOST}/temporaryposts?categoryId=${id}&status=new`);
+            const response = await axios.get(`${process.env.REACT_APP_API_HOST}/temporaryposts?status=new`);
             return response.data;
         } catch (error) {
             console.error('Error uploading image:', error);

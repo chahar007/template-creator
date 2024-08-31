@@ -59,6 +59,7 @@ const Category = () => {
           <tr key={"head"}>
             <th scope="col">S.No</th>
             <th scope="col">Name</th>
+            <th scope="col">Email</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -67,6 +68,7 @@ const Category = () => {
             <tr key={category.id}>
               <td scope="row">{index + 1}</td>
               <td>{category.name}</td>
+              <td>{category.email}</td>
               <td>
                 <button
                   className="btn btn-secondary btn-sm mx-2"

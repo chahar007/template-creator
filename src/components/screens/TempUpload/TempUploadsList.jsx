@@ -11,7 +11,8 @@ const TempUploadsList = () => {
   const [templates, setTemplates] = useState([]);
 
   useEffect(() => {
-    fetchCategories();
+    // fetchCategories();
+    fetchTempTemplates();
   }, []);
 
   const fetchCategories = async () => {
@@ -28,9 +29,9 @@ const TempUploadsList = () => {
     setSelectedCategory(categoryId);
   };
 
-  useEffect(() => {
-    if (selectedCategory) fetchTempTemplates();
-  }, [selectedCategory]);
+  // useEffect(() => {
+  //   if (selectedCategory) fetchTempTemplates();
+  // }, [selectedCategory]);
 
   const fetchTempTemplates = async () => {
     try {
@@ -47,6 +48,7 @@ const TempUploadsList = () => {
     try {
       let publish = await apiService.goLive();
       toast.success("Post Successfully Published!!!");
+      fetchTempTemplates();
     } catch {
       toast.error("Something went wrong please try again!!!");
     }
@@ -59,7 +61,7 @@ const TempUploadsList = () => {
       >
         <h3 className="mb-0">Temporaries List</h3>
         <div className="d-flex align-items-center gap-4">
-          <select
+          {/* <select
             className="form-select mr-3"
             value={selectedCategory}
             onChange={handleCategoryChange}
@@ -72,7 +74,7 @@ const TempUploadsList = () => {
                 {category.name}
               </option>
             ))}
-          </select>
+          </select> */}
           <button
             onClick={handlePublish}
             className={`btn btn-primary ${
