@@ -106,7 +106,8 @@ const TempUpload = () => {
               mediaType: "image",
               placementType: "post",
               caption: data.caption,
-              hashtags: "sample #post #instagram #viral #motivation",
+              quoteId: data.id,
+              hashtags:data.hashtags,
               scheduledOn: new Date().toISOString(),
               status: "new",
             };
