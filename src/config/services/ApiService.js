@@ -145,9 +145,9 @@ const apiService = {
         }
     },
 
-    goLive: async (id) => {
+    goLive: async (payload) => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_HOST}/socialmedia/golive`);
+            const response = await axios.post(`${process.env.REACT_APP_API_HOST}/socialmedia/golive`, payload);
             return response.data;
         } catch (error) {
             console.error('Error uploading image:', error);
