@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import loginService from "../../../config/services/LoginService";
+import {jwtDecode} from "jwt-decode";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { APP_CONSTANTS } from "../../../config/utils/AppContext";
 import { useAuth } from "../../../config/utils/AuthProvider";
 
 const Login = () => {
-  const [email, setEmail] = useState("shivam.kumar@live.in");
-  const [password, setPassword] = useState("Secure@123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isHovered, setIsHovered] = useState(false);
@@ -46,9 +48,8 @@ const Login = () => {
 
   const getSyncTime = async () => {
     try {
-      let res = await loginService.syncTime();
-      console.log("res", res);
-    } catch {}
+      await loginService.syncTime();
+    } catch { }
   };
 
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -116,6 +117,34 @@ const Login = () => {
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
+  const handleGoogleFailure = (data) => {
+    console.log({data})
+    toast.error("Google Login failed, please try again!", { autoClose: 2000 });
+  };
+  const handleGoogleSuccess = async (response) => {
+    const decoded = jwtDecode(response.credential);
+    try {
+      const data = await loginService.googleLogin(decoded);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("jwt", data.tokens.access.token);
+      localStorage.setItem("tokens", JSON.stringify(data.tokens));
+
+      APP_CONSTANTS.user = data.user;
+      APP_CONSTANTS.jwt = data.tokens.access.token;
+      APP_CONSTANTS.token = data.tokens;
+
+      auth.setIsAuth(true);
+      toast.success("Login successful!!!", { autoClose: 3000 });
+      setTimeout(() => {
+        navigate("/quotes");
+      }, 1000);
+    } catch (error) {
+      console.log({error})
+      toast.error("Google Login failed, please try again!", {
+        autoClose: 2000,
+      });
+    }
+  };
 
   const styles = {
     wrapper: {
@@ -164,6 +193,7 @@ const Login = () => {
       fontSize: "16px",
       cursor: "pointer",
       transition: "background-color 0.3s ease",
+      marginBottom: "10px",
     },
     loader: {
       border: "4px solid #f3f3f3",
@@ -175,48 +205,63 @@ const Login = () => {
       display: "inline-block",
       marginLeft: "10px",
     },
+    subheading: {
+      marginBottom: "15px",
+      fontSize: "12px",
+      textAlign: "center",
+      color: "#333",
+    },
   };
 
   return (
-    <div style={styles.wrapper}>
-      <form style={styles.form} onSubmit={handleSubmit}>
-        <h2 style={styles.title}>Login</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={handleEmailChange}
-          onBlur={validateEmail}
-          style={styles.input}
-        />
-        {emailError && <div style={styles.errorText}>{emailError}</div>}
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={handlePasswordChange}
-          onBlur={validatePassword}
-          style={styles.input}
-        />
-        {passwordError && <div style={styles.errorText}>{passwordError}</div>}
-        <button
-          type="submit"
-          style={styles.button}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              Logging in...
-              <span style={styles.loader}></span>
-            </>
-          ) : (
-            "Login"
-          )}
-        </button>
-      </form>
-    </div>
+    <GoogleOAuthProvider clientId="758363044936-7hjtue4hrfgdlkf4skqe49i0vmvilpkk.apps.googleusercontent.com">
+      <div style={styles.wrapper}>
+        <form style={styles.form} onSubmit={handleSubmit}>
+          <h2 style={styles.title}>Login</h2>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={handleEmailChange}
+            onBlur={validateEmail}
+            style={styles.input}
+          />
+          {emailError && <div style={styles.errorText}>{emailError}</div>}
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={handlePasswordChange}
+            onBlur={validatePassword}
+            style={styles.input}
+          />
+          {passwordError && <div style={styles.errorText}>{passwordError}</div>}
+          <button
+            type="submit"
+            style={styles.button}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                Logging in...
+                <span style={styles.loader}></span>
+              </>
+            ) : (
+              "Login"
+            )}
+          </button>
+          <h4 style={styles.subheading}>or</h4>
+          {/* Todo: Add the width to the button */}
+          <GoogleLogin
+            width={styles.input.width}
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleFailure}
+          />
+        </form>
+      </div>
+    </GoogleOAuthProvider>
   );
 };
 

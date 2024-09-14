@@ -22,6 +22,15 @@ const loginService = {
         }
     },
 
+    googleLogin: async (payload) => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_HOST}/auth/login/google`, payload);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching dropdown 1 data:', error);
+            throw error;
+        }
+    },
 
 };
 
