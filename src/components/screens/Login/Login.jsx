@@ -122,6 +122,7 @@ const Login = () => {
     toast.error("Google Login failed, please try again!", { autoClose: 2000 });
   };
   const handleGoogleSuccess = async (response) => {
+    setIsLoading(true);
     const decoded = jwtDecode(response.credential);
     try {
       const data = await loginService.googleLogin(decoded);
@@ -136,10 +137,12 @@ const Login = () => {
       auth.setIsAuth(true);
       toast.success("Login successful!!!", { autoClose: 3000 });
       setTimeout(() => {
+        setIsLoading(false);
         navigate("/quotes");
       }, 1000);
     } catch (error) {
       console.log({error})
+      setIsLoading(false);
       toast.error("Google Login failed, please try again!", {
         autoClose: 2000,
       });
