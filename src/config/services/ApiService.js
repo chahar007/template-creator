@@ -1,8 +1,11 @@
 import axios from 'axios';
+import mockDataService from './MockDataService';
+import { IS_MOCK } from '../constants/runtime.constant';
 
 
 const apiService = {
-    getCategoryData: async () => {
+    getCategoryData: async (payload) => {
+        if (IS_MOCK) return mockDataService.getCategoryData(payload);
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_HOST}/category`);
             return response.data;
@@ -13,6 +16,7 @@ const apiService = {
     },
 
     postCategoryData: async (payload) => {
+        if (IS_MOCK) return mockDataService.postCategoryData(payload);
         try {
             let response = await axios.post(`${process.env.REACT_APP_API_HOST}/category`, payload, {});
             return response.data;
@@ -23,6 +27,7 @@ const apiService = {
     },
 
     updateCategoryData: async (id, payload) => {
+        if (IS_MOCK) return mockDataService.updateCategoryData(id, payload);
         try {
             let response = await axios.patch(`${process.env.REACT_APP_API_HOST}/category/${id}`, payload, {});
             return response.data;
@@ -32,7 +37,8 @@ const apiService = {
         }
     },
 
-    getQuotes: async () => {
+    getQuotes: async (payload) => {
+        if (IS_MOCK) return mockDataService.getQuotes(payload);
         try {
             let response = await axios.get(`${process.env.REACT_APP_API_HOST}/quotes`);
             return response.data;
@@ -43,6 +49,7 @@ const apiService = {
     },
 
     quoteUploads: async (payload) => {
+        if (IS_MOCK) return mockDataService.quoteUploads(payload);
         try {
             let response = await axios.post(`${process.env.REACT_APP_API_HOST}/quotes/upload`, payload, {});
             return response.data;
@@ -54,6 +61,7 @@ const apiService = {
 
 
     deleteQuote: async (payload) => {
+        if (IS_MOCK) return mockDataService.deleteQuote(payload);
         try {
             let response = await axios.post(`${process.env.REACT_APP_API_HOST}/quotes/upload`, payload, {});
             return response.data;
@@ -65,6 +73,7 @@ const apiService = {
 
 
     imageUpload: async (payload) => {
+        if (IS_MOCK) return mockDataService.imageUpload(payload);
         try {
             let response = await axios.post(`${process.env.REACT_APP_API_HOST}/image/upload`, payload, {});
             return response.data;
@@ -75,6 +84,7 @@ const apiService = {
     },
 
     templateUpload: async (payload) => {
+        if (IS_MOCK) return mockDataService.templateUpload(payload);
         try {
             let response = await axios.post(`${process.env.REACT_APP_API_HOST}/category/${payload.categoryId}/image`, payload, {});
             return response.data;
@@ -85,6 +95,7 @@ const apiService = {
     },
 
     getTemplates: async (catId) => {
+        if (IS_MOCK) return mockDataService.getTemplates(catId);
         try {
             let response = await axios.get(`${process.env.REACT_APP_API_HOST}/category/${catId}/image`,);
             return response.data;
@@ -95,6 +106,7 @@ const apiService = {
     },
 
     imageUploadToWP: async (payload) => {
+        if (IS_MOCK) return mockDataService.imageUploadToWP(payload);
         try {
             const response = await axios.post('https://gratifytech.com/admin/wp-json/wp/v2/media', payload, {
                 headers: {
@@ -110,6 +122,7 @@ const apiService = {
     },
 
     schedulePost: async (payload) => {
+        if (IS_MOCK) return mockDataService.schedulePost(payload);
         try {
             const response = await axios.post('https://gratifytech.com/admin/wp-json/wp/v2/posts', payload, {
                 headers: {

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import loginService from "../../../config/services/LoginService";
 import { APP_CONSTANTS } from "../../../config/utils/AppContext";
 import { useAuth } from "../../../config/utils/AuthProvider";
+import { IS_MOCK } from "../../../config/constants/runtime.constant";
 
 const Login = () => {
   const [email, setEmail] = useState("shivam.kumar@live.in");
@@ -17,6 +18,29 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (IS_MOCK) {
+      const mockSession = {
+        user: {
+          id: "mock-user-1",
+          email: "mock.user@example.com",
+          name: "Mock User",
+        },
+        tokens: {
+          access: { token: "mock-access-token" },
+          refresh: { token: "mock-refresh-token" },
+        },
+      };
+      localStorage.setItem("user", JSON.stringify(mockSession.user));
+      localStorage.setItem("jwt", mockSession.tokens.access.token);
+      localStorage.setItem("tokens", JSON.stringify(mockSession.tokens));
+      APP_CONSTANTS.user = mockSession.user;
+      APP_CONSTANTS.jwt = mockSession.tokens.access.token;
+      APP_CONSTANTS.token = mockSession.tokens;
+      auth.setIsAuth(true);
+      navigate("/bulk-templates-generator");
+      return;
+    }
+
     // Check for stored user data in localStorage
     const storedUser = localStorage.getItem("user");
     const storedToken = localStorage.getItem("jwt");
@@ -79,6 +103,12 @@ const Login = () => {
     e.preventDefault();
     validateEmail();
     validatePassword();
+
+    if (IS_MOCK) {
+      auth.setIsAuth(true);
+      navigate("/bulk-templates-generator");
+      return;
+    }
 
     if (!emailError && !passwordError && email && password) {
       setIsLoading(true);
